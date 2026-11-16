@@ -1,0 +1,12 @@
+AdaptiveSparkPlan isFinalPlan=false
++- Project [order_id#0L, order_ts#2, product_id#1L, quantity#3, price#6]
+   +- SortMergeJoin [product_id#1L], [product_id#4L], LeftOuter, ((order_ts#2 >= valid_from#5) AND (isnull(valid_to#319) OR (order_ts#2 < valid_to#319)))
+      :- Sort [product_id#1L ASC NULLS FIRST], false, 0
+      :  +- Exchange hashpartitioning(product_id#1L, 64), ENSURE_REQUIREMENTS, [plan_id=953]
+      :     +- FileScan parquet [order_id#0L,product_id#1L,order_ts#2,quantity#3] Batched: true, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-asof-join-lab/data/p1000_c100..., PartitionFilters: [], PushedFilters: [], ReadSchema: struct<order_id:bigint,product_id:bigint,order_ts:timestamp,quantity:int>
+      +- Filter isnotnull(valid_from#5)
+         +- Window [lead(valid_from#5, 1, null) windowspecdefinition(product_id#4L, valid_from#5 ASC NULLS FIRST, specifiedwindowframe(RowFrame, 1, 1)) AS valid_to#319], [product_id#4L], [valid_from#5 ASC NULLS FIRST]
+            +- Sort [product_id#4L ASC NULLS FIRST, valid_from#5 ASC NULLS FIRST], false, 0
+               +- Exchange hashpartitioning(product_id#4L, 64), ENSURE_REQUIREMENTS, [plan_id=947]
+                  +- Filter isnotnull(product_id#4L)
+                     +- FileScan parquet [product_id#4L,valid_from#5,price#6] Batched: true, DataFilters: [isnotnull(product_id#4L)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-asof-join-lab/data/p1000_c100..., PartitionFilters: [], PushedFilters: [IsNotNull(product_id)], ReadSchema: struct<product_id:bigint,valid_from:timestamp,price:decimal(10,2)>

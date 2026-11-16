@@ -1,0 +1,42 @@
+{
+  "spark_version": "4.3.0",
+  "master": "local[8]",
+  "driver_memory": "6g",
+  "orders": 10000000,
+  "price_changes": 1000000,
+  "candidate_pairs": 249993870,
+  "timings": {
+    "asof_join": {
+      "runs_s": [
+        9.87,
+        9.68,
+        9.16
+      ],
+      "median_s": 9.68
+    },
+    "join_then_rank": {
+      "runs_s": [
+        43.9,
+        46.64,
+        40.74
+      ],
+      "median_s": 43.9
+    },
+    "validity_range": {
+      "runs_s": [
+        2.57,
+        2.52,
+        2.52
+      ],
+      "median_s": 2.52
+    },
+    "union_last_value": {
+      "runs_s": [
+        4.43,
+        4.44,
+        4.34
+      ],
+      "median_s": 4.43
+    }
+  }
+}

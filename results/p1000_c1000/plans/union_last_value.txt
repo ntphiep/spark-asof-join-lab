@@ -1,0 +1,11 @@
+AdaptiveSparkPlan isFinalPlan=false
++- Project [order_id#272L, ts#276 AS order_ts#237, product_id#273L, quantity#275, last_price#287 AS price#238]
+   +- Filter (kind#278 = 1)
+      +- Window [last(price#277, true) windowspecdefinition(product_id#273L, ts#276 ASC NULLS FIRST, kind#278 ASC NULLS FIRST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS last_price#287], [product_id#273L], [ts#276 ASC NULLS FIRST, kind#278 ASC NULLS FIRST]
+         +- Sort [product_id#273L ASC NULLS FIRST, ts#276 ASC NULLS FIRST, kind#278 ASC NULLS FIRST], false, 0
+            +- Exchange hashpartitioning(product_id#273L, 64), ENSURE_REQUIREMENTS, [plan_id=656]
+               +- Union
+                  :- Project [order_id#272L, product_id#273L, order_ts#274 AS ts#276, quantity#275, null AS price#277, 1 AS kind#278]
+                  :  +- FileScan parquet [order_id#272L,product_id#273L,order_ts#274,quantity#275] Batched: true, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-asof-join-lab/data/p1000_c100..., PartitionFilters: [], PushedFilters: [], ReadSchema: struct<order_id:bigint,product_id:bigint,order_ts:timestamp,quantity:int>
+                  +- Project [null AS NULL#285L, product_id#279L, valid_from#280, null AS NULL#286, price#281, 0 AS 0#284]
+                     +- FileScan parquet [product_id#279L,valid_from#280,price#281] Batched: true, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-asof-join-lab/data/p1000_c100..., PartitionFilters: [], PushedFilters: [], ReadSchema: struct<product_id:bigint,valid_from:timestamp,price:decimal(10,2)>

@@ -1,0 +1,9 @@
+orders: 10,000,000
+price_changes: 999,989
+order x earlier price change pairs: 4,999,804,807
+
+asof_join: {'rows_out': 10000000, 'priced': 9989989, 'revenue': Decimal('7564678848.88'), 'row_hash': 870131932293}
+union_last_value: {'rows_out': 10000000, 'priced': 9989989, 'revenue': Decimal('7564678848.88'), 'row_hash': 870131932293}
+validity_range: {'rows_out': 10000000, 'priced': 9989989, 'revenue': Decimal('7564678848.88'), 'row_hash': 870131932293}
+
+3 queries return the same rows: True

@@ -1,0 +1,9 @@
+AdaptiveSparkPlan isFinalPlan=false
++- Project [order_id#0L, order_ts#2, product_id#1L, quantity#3, price#6]
+   +- SortMergeAsOfJoin [product_id#1L], [product_id#4L], [order_ts#2], [valid_from#5], (order_ts#2 >= valid_from#5), (order_ts#2 - valid_from#5), LeftOuter
+      :- Sort [product_id#1L ASC NULLS FIRST, order_ts#2 ASC NULLS FIRST], false, 0
+      :  +- Exchange hashpartitioning(product_id#1L, 64), ENSURE_REQUIREMENTS, [plan_id=449]
+      :     +- FileScan parquet [order_id#0L,product_id#1L,order_ts#2,quantity#3] Batched: true, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-asof-join-lab/data/p5000_c200..., PartitionFilters: [], PushedFilters: [], ReadSchema: struct<order_id:bigint,product_id:bigint,order_ts:timestamp,quantity:int>
+      +- Sort [product_id#4L ASC NULLS FIRST, valid_from#5 ASC NULLS FIRST], false, 0
+         +- Exchange hashpartitioning(product_id#4L, 64), ENSURE_REQUIREMENTS, [plan_id=450]
+            +- FileScan parquet [product_id#4L,valid_from#5,price#6] Batched: true, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-asof-join-lab/data/p5000_c200..., PartitionFilters: [], PushedFilters: [], ReadSchema: struct<product_id:bigint,valid_from:timestamp,price:decimal(10,2)>
